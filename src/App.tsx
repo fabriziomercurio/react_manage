@@ -1,14 +1,71 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+function App() { 
+
+  type productForm = {
+    title: string; 
+  }
+
+  type Product = {
+  id: number;
+  title: string;
+  created: string;
+  };
+
+  const [count, setCount] = useState(0) 
+  const [formData,setFormData] = useState<productForm>({"title":""})
+  const [products,useProducts] = useState<Product[]>([])
+
+  const loadProducts = () => {
+    fetch("http://localhost:3000/products")
+    .then((res) => res.json()) 
+    .then((data) => useProducts(data)) 
+  } 
+
+  useEffect(() => {
+    loadProducts()
+  },[]) 
+
+  const handleInputChange = (e:any)  => 
+  {
+     const {name, value} = e.target; 
+     setFormData({...formData,  [name]: value,}); 
+     console.log(formData)
+  }
+
+  const submitForm = (e:any) => { 
+    e.preventDefault(); 
+    fetch("http://localhost:3000/products", {
+      method:"POST", 
+      headers: {
+        'Content-Type':'application/json'
+      }, 
+      body:JSON.stringify({
+        title:formData.title
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log("Risposta dal server:", data);
+    })
+    .catch(err => console.error("Errore:", err));
+  }
 
   return (
-    <>
+    <> 
+    {products.map(p => (
+      <div key={p.id}>{p.title}</div>
+    ))} 
+    <form onSubmit={submitForm}>
+    <label htmlFor="title">Title:</label><br />
+    <input type="text" id="title" name="title" onChange={handleInputChange} /><br />
+    <button type="submit">click</button>
+    </form>
+
       <section id="center">
         <div className="hero">
           <img src={heroImg} className="base" width="170" height="179" alt="" />
