@@ -17,7 +17,11 @@ function App() {
   };
 
   const [count, setCount] = useState(0) 
-  const [formData,setFormData] = useState<productForm>({"title":""})
+  const [formData,setFormData] = useState<productForm>({"title":""}) 
+
+  const [formDataRegister,setFormDataRegister] = useState({"email":"","password":""}); 
+
+
   const [products,useProducts] = useState<Product[]>([])
 
   const loadProducts = () => {
@@ -35,6 +39,12 @@ function App() {
      const {name, value} = e.target; 
      setFormData({...formData,  [name]: value,}); 
      console.log(formData)
+  } 
+
+  const handleInputChangeRegister = (e:any) => 
+  {
+     const {name,value} = e.target; 
+     setFormDataRegister({...formDataRegister, [name]:value}); 
   }
 
   const submitForm = (e:any) => { 
@@ -53,6 +63,22 @@ function App() {
       console.log("Risposta dal server:", data);
     })
     .catch(err => console.error("Errore:", err));
+  } 
+
+  const submitFormRegister = (e:any) => {
+    e.preventDefault(); 
+    fetch("http://localhost:3000/users", {
+      method:"POST",
+      headers: {
+        'Content-Type':'application/json'
+      },  
+      body:JSON.stringify({
+        email:formDataRegister.email, 
+        password:formDataRegister.password
+      })
+    }).then((res) => res.json()) 
+    .then((data) => {console.log("Server Response: ", data)})
+    .catch((err) => console.log("Error:", err))
   }
 
   return (
@@ -60,6 +86,13 @@ function App() {
     {products.map(p => (
       <div key={p.id}>{p.title}</div>
     ))} 
+    <h2>register</h2>
+    <form onSubmit={submitFormRegister}>
+      <input type="text" id="email" name="email" onChange={handleInputChangeRegister} /><br />
+      <input type="text" id="password" name="password" onChange={handleInputChangeRegister} /><br /> 
+      <button type="submit" style={{marginBottom:90}}>click</button>
+    </form> 
+    
     <form onSubmit={submitForm}>
     <label htmlFor="title">Title:</label><br />
     <input type="text" id="title" name="title" onChange={handleInputChange} /><br />
