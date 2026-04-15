@@ -79,6 +79,30 @@ function App() {
     }).then((res) => res.json()) 
     .then((data) => {console.log("Server Response: ", data)})
     .catch((err) => console.log("Error:", err))
+  } 
+
+  const [formDataLogin,setFormDataLogin] = useState<any>({}); 
+
+  const handleInputChangeLogin = (e:any) => 
+  {
+    const {name,value} = e.target; 
+    setFormDataLogin({...formDataLogin, [name]:value}); 
+  } 
+
+  const submitFormLogin = (e:any) => { 
+    e.preventDefault();
+    fetch("http://localhost:3000/login",{
+      method:"POST",
+      headers: {
+        'Content-Type':'application/json'
+      }, 
+      body:JSON.stringify({
+        email:formDataLogin.email, 
+        password:formDataLogin.password
+      })
+    }).then((res) => res.json()) 
+    .then((data) => { console.log("Server Response: ", data) }) 
+    .catch((err) => console.log("Err: ", err))
   }
 
   return (
@@ -92,6 +116,15 @@ function App() {
       <input type="text" id="password" name="password" onChange={handleInputChangeRegister} /><br /> 
       <button type="submit" style={{marginBottom:90}}>click</button>
     </form> 
+
+
+    <h2>login</h2>
+    <form onSubmit={submitFormLogin}>
+      <input type="text" id="email" name="email" onChange={handleInputChangeLogin} /><br />
+      <input type="text" id="password" name="password" onChange={handleInputChangeLogin} /><br /> 
+      <button type="submit" style={{marginBottom:90}}>click</button>
+    </form> 
+
     
     <form onSubmit={submitForm}>
     <label htmlFor="title">Title:</label><br />
