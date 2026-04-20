@@ -18,7 +18,7 @@ const AddProduct = () => {
    const submitForm = async (e:React.FormEvent<HTMLFormElement>) => { 
     e.preventDefault(); 
     try { 
-    const res = await fetch(baseUrl + "/products", {
+    const res = await fetch(`${baseUrl}/products`, {
         method:"POST", 
         headers: {
           'Content-Type':'application/json'

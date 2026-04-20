@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { AuthService } from "../services/AuthService";
 import Login from "./Login";
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
@@ -9,7 +10,8 @@ const Dashboard = () => {
     created: string;
     };
 
-    const token = 'fake';    
+    // const token = localStorage.getItem('token');    
+    const token = AuthService.getToken();
     if (!token) return < Login/> 
 
     const [products,useProducts] = useState<Product[]>([]); 
@@ -17,7 +19,7 @@ const Dashboard = () => {
     const loadProducts = async () => 
     {        
         try {
-        const res = await fetch(baseUrl + "/products");
+        const res = await fetch(`${baseUrl}/products`);
         const data = await res.json() 
         useProducts(data) 
         } catch (error) {

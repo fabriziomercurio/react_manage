@@ -1,4 +1,5 @@
 import { useState } from "react"
+import {AuthService} from "../services/AuthService";
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
 const Login = () => {
@@ -14,7 +15,7 @@ const Login = () => {
         e.preventDefault();
 
         try {
-            const res = await fetch(baseUrl + "/login", {
+            const res = await fetch(`${baseUrl}/login`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
@@ -26,6 +27,7 @@ const Login = () => {
             });
             const data = await res.json();
             console.log("Server Response:", data);
+            AuthService.setToken('fake-token')
         } catch (err) {
             console.log("Err:", err);
         }

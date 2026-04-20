@@ -20,7 +20,7 @@ const Register = () => {
         console.log(formRegister)
 
         try {
-            const res = await fetch(baseUrl + "/users", {
+            const res = await fetch(`${baseUrl}/users`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
