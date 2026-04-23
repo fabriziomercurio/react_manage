@@ -1,25 +1,26 @@
 import { useState } from 'react'
-import renderRoute from './components/Route';
+import renderRoute from './components/Route'; 
+import type { Router } from './types/Router';
 import './App.css'
 
 function App() { 
 
-const [route,setRoute] = useState(window.location.pathname); 
+const [route,setRoute] = useState<Router>({"path":"","id":null}); 
 
-const navigate = (path:string) => 
+const navigate = (path:Router) => 
 {
-    setRoute(path);
+    setRoute(path); 
 }
 
   return (
     <> 
     <div>
       <nav>
-        <button onClick={() => navigate('/')}>home</button>
-        <button onClick={() => navigate('/about')}>about</button> 
-        <button onClick={() => navigate('/register')}>register</button>
-        <button onClick={() => navigate('/login')}>login</button>
-        <button onClick={() => navigate('/dashboard')}>dashboard</button>
+        <button onClick={() => navigate({"path":'/'})}>home</button>
+        <button onClick={() => navigate({"path":'/about'})}>about</button> 
+        <button onClick={() => navigate({"path":'/register'})}>register</button>
+        <button onClick={() => navigate({"path":'/login'})}>login</button>
+        <button onClick={() => navigate({"path":'/dashboard'})}>dashboard</button>
       </nav>
     </div> 
     {renderRoute(route)}

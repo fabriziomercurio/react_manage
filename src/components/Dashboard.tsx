@@ -1,17 +1,15 @@
 import { useEffect, useState } from "react";
 import { AuthService } from "../services/AuthService";
 import Login from "./Login";
+import type { Router } from "../types/Router";
+import renderRoute from "./Route"; 
+import type { Product } from "../types/Product";
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
 const Dashboard = () => { 
-    type Product = {
-    id: number;
-    title: string;
-    created: string;
-    };
 
-    // const token = localStorage.getItem('token');    
     const token = AuthService.getToken();
+
     if (!token) return < Login/> 
 
     const [products,useProducts] = useState<Product[]>([]); 
@@ -29,13 +27,22 @@ const Dashboard = () => {
 
     useEffect(() => {
         loadProducts()
-    },[])
+    },[]) 
+    
+
+    const [parameter,setParameter] = useState<Router>({"path":"","id":null}); 
+
+    const navigate = (router:Router) => {
+        setParameter({"path":router.path,"id":router.id});   
+
+    } 
 
     return (<> 
       <h3>Dashboard</h3>
       {products && products.map((p) => (
-        <div key={p.id}>{p.title}</div>
-        ))}    
+        <div key={p.id}>{p.title} --- {p.id}<button onClick={() => navigate({"path":'/edit/',"id":p.id})}>click</button></div>
+        ))}   
+       {renderRoute(parameter)}
     </>)
 } 
 
