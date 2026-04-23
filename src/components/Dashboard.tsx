@@ -27,14 +27,16 @@ const Dashboard = () => {
 
     useEffect(() => {
         loadProducts()
-    },[]) 
-    
+    },[])    
 
     const [parameter,setParameter] = useState<Router>({"path":"","id":null}); 
 
     const navigate = (router:Router) => {
         setParameter({"path":router.path,"id":router.id});   
+    } 
 
+    if (parameter.path === "/edit/") {
+        return renderRoute(parameter)
     } 
 
     return (<> 
@@ -42,7 +44,6 @@ const Dashboard = () => {
       {products && products.map((p) => (
         <div key={p.id}>{p.title} --- {p.id}<button onClick={() => navigate({"path":'/edit/',"id":p.id})}>click</button></div>
         ))}   
-       {renderRoute(parameter)}
     </>)
 } 
 
