@@ -18,17 +18,17 @@ const AddProduct = () => {
    const submitForm = async (e:React.FormEvent<HTMLFormElement>) => { 
     e.preventDefault(); 
     try { 
-    const res = await fetch(`${baseUrl}/products`, {
-        method:"POST", 
-        headers: {
-          'Content-Type':'application/json'
-        }, 
-        body:JSON.stringify({
-          title:formData.title
-        })
-      })
-    const data = await res.json() 
-    console.log("Server Response:", data);        
+    const res = new FormData(); 
+    res.append("title", formData.title); 
+
+    const data = await fetch(`${baseUrl}/products`, {
+      method:'POST', 
+      body:res
+    }); 
+     
+    const test = await data.json();  
+    console.log(test);
+         
     } catch (error) {
         console.log("Err:", error); 
     }
