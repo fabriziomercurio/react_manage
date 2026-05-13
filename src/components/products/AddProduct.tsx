@@ -25,7 +25,7 @@ const AddProduct = () => {
     res.append("title", formData.title); 
     res.append("image", formData.image ?? '')
 
-    const data = await fetch(`${baseUrl}/api/products`, {
+    const data = await fetch(`${baseUrl}/products`, {
       method:'POST', 
       body:res
     });        

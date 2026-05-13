@@ -17,7 +17,7 @@ const Dashboard = () => {
     const loadProducts = async () => 
     {        
         try {
-        const res = await fetch(`${baseUrl}/api/products`);
+        const res = await fetch(`${baseUrl}/products`);
         const data = await res.json() 
         useProducts(data) 
         } catch (error) {

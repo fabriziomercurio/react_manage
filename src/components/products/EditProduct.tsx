@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react" 
 import type { Product } from "../../types/Product";
-const baseUrl = import.meta.env.VITE_BASE_URL;
+const baseUrl = import.meta.env.VITE_BASE_URL; 
+const staticUrl = import.meta.env.VITE_STATIC_URL; 
 
 const EditProduct = ({id}: {id?:number|null}) => { 
   
@@ -11,7 +12,7 @@ const EditProduct = ({id}: {id?:number|null}) => {
      const loadProducts = async () => {
           
       try { 
-          const res = await fetch(`${baseUrl}/api/products/${id}`); 
+          const res = await fetch(`${baseUrl}/products/${id}`); 
 
           const data = await res.json();
           
@@ -19,8 +20,13 @@ const EditProduct = ({id}: {id?:number|null}) => {
              setError(data.message)
           } 
 
-          setProduct(data.result)
-          setSize(data.sizes)
+          setProduct(data.result) 
+            
+          if (data.sizes) {
+             setSize(data.sizes) 
+          }          
+        
+          console.log(data)
       } catch (error) {
           console.log(error)
       }
@@ -36,14 +42,13 @@ const EditProduct = ({id}: {id?:number|null}) => {
            <h3>{error}</h3>
         </>)}
         {product && (
-        <>
-            <h2>{product.name}</h2>
-            <div>
-                <img src={`${baseUrl}/${product.created}/${size[1]}/${product.name}`} alt=""  style={{width: '50%'}}/> 
-            </div>
-        </>
-        )}
-    </div>
-);
+         <>
+          <h2>{product.title}</h2>         
+            {size.length > 0 && product?.name &&(
+              <div><img src={`${staticUrl}/${product.created}/${size[1]}/${product.name}`} alt="" style={{width: '50%'}}/></div>
+          )}
+         </>)}
+    </div>);
 }
+
 export default EditProduct
