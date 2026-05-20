@@ -74,6 +74,28 @@ const EditProduct = ({id}: {id?:number|null}) => {
       }
     } 
 
+    const handleDelete = async (e:any) => { 
+        e.preventDefault();
+        try {
+            const res = await fetch(`${baseUrl}/product/${id}`,{
+                method:"DELETE"
+            }); 
+
+            const result = await res.json(); 
+
+            if (!res.ok) {
+             setError(result.error); 
+             console.log(result.error)
+             return;
+          } 
+
+          console.log(result.message)
+          
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     useEffect(() => {
        loadProducts() 
     }, []) 
@@ -103,7 +125,8 @@ const EditProduct = ({id}: {id?:number|null}) => {
           )}
          </>)} 
          <input type="file" name="image" onChange={handleInputChange}/>
-         <button>update</button>
+         <button>update</button> 
+         <button onClick={handleDelete}>delete</button>
     </form>);
 }
 
