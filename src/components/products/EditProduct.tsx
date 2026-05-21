@@ -9,7 +9,7 @@ const EditProduct = ({id}: {id?:number|null}) => {
     const [size,setSize] = useState<string[]>([]);
     const [error,setError] = useState<string>(''); 
 
-    const [prodUpdate,setProdUpdate] = useState({'title': product.title, 'image': product.name}); 
+    const [prodUpdate,setProdUpdate] = useState({'title': product.title, 'image': product.name, 'removeImage':false}); 
 
     const handleInputChange = (e:React.ChangeEvent<HTMLInputElement>) => { 
         const { name, value, files } = e.target;
@@ -19,6 +19,18 @@ const EditProduct = ({id}: {id?:number|null}) => {
         }) 
     }
 
+
+    const handleDeleteImage = async () => {
+        // setProdUpdate({
+        //     ...prodUpdate, 
+        //     removeImage:true
+        // }) 
+        setProdUpdate((prev) => ({
+        ...prev,
+        removeImage: true
+        }));
+    }
+
     const submitUpdateForm = async (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         console.log(prodUpdate.title); 
@@ -26,11 +38,14 @@ const EditProduct = ({id}: {id?:number|null}) => {
           const form = new FormData(); 
           form.append("title", prodUpdate.title); 
           form.append("image", prodUpdate.image ?? ''); 
-
+          form.append("removeImage",String(prodUpdate.removeImage));
           const data = await fetch(`${baseUrl}/product/${id}`, {
             method:'PUT', 
             body:form
           }); 
+
+          
+          console.log("removeImage:", prodUpdate.removeImage);
 
           const result = await data.json();          
 
@@ -94,7 +109,9 @@ const EditProduct = ({id}: {id?:number|null}) => {
         } catch (error) {
             console.log(error);
         }
-    }
+    } 
+
+    
 
     useEffect(() => {
        loadProducts() 
@@ -102,7 +119,7 @@ const EditProduct = ({id}: {id?:number|null}) => {
 
     useEffect(() => {
         if (product) {
-            setProdUpdate({ title: product.title, image:product.name }); 
+            setProdUpdate({ title: product.title, image:product.name, removeImage:false }); 
         }
     }, [product]);
 
@@ -121,7 +138,9 @@ const EditProduct = ({id}: {id?:number|null}) => {
         {product && (
          <>        
             {size.length > 0 && product?.name &&(
-              <div><img src={`${staticUrl}/${product.created}/${size[1]}/${product.name}`} alt="" style={{width: '50%'}}/></div>
+              <div><img src={`${staticUrl}/${product.created}/${size[1]}/${product.name}`} alt="" style={{width: '50%'}}/>
+                <div onClick={handleDeleteImage}><button>remove image</button></div>
+              </div>
           )}
          </>)} 
          <input type="file" name="image" onChange={handleInputChange}/>
