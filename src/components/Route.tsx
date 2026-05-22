@@ -3,6 +3,9 @@ import Register from "./Register";
 import Dashboard from "./Dashboard";
 import AddProduct from "./products/AddProduct";
 import EditProduct from "./products/EditProduct";
+
+import ProductPage from "../features/products/pages/productsPage.js";
+
 import type { Router } from '../types/Router';
 
 const renderRoute = (route:Router) => { 
@@ -22,7 +25,11 @@ const renderRoute = (route:Router) => {
       case "/dashboard": 
         return <Dashboard />; 
       case "/add-product": 
-        return <AddProduct />
+        return <AddProduct /> 
+      
+      case "/products": 
+        return <ProductPage /> 
+
       default:
         return 'notfound';
     }

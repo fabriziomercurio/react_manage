@@ -21,7 +21,9 @@ const navigate = (path:Router) =>
         <button onClick={() => navigate({"path":'/register'})}>register</button>
         <button onClick={() => navigate({"path":'/add-product'})}>add product</button>
         <button onClick={() => navigate({"path":'/login'})}>login</button>
-        <button onClick={() => navigate({"path":'/dashboard'})}>dashboard</button>
+        <button onClick={() => navigate({"path":'/dashboard'})}>dashboard</button> 
+
+        <button onClick={() => navigate({"path":'/products'})}>products</button>
       </nav>
     </div> 
     {renderRoute(route)}
