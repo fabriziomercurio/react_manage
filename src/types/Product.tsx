@@ -2,6 +2,6 @@ export type Product = {
     id: number|null;
     title: string;
     name: string;
-    created: string;
+    created_at: string;
     imageId:number|null;
 };

@@ -5,7 +5,7 @@ const staticUrl = import.meta.env.VITE_STATIC_URL;
 
 const EditProduct = ({id}: {id?:number|null}) => { 
   
-    const [product,setProduct] = useState<Product>({'id': 0,'title': '','name':'','imageId':null,'created':''}); 
+    const [product,setProduct] = useState<Product>({'id': 0,'title': '','name':'','imageId':null,'created_at':''}); 
     const [size,setSize] = useState<string[]>([]);
     const [error,setError] = useState<string>(''); 
 
@@ -138,7 +138,7 @@ const EditProduct = ({id}: {id?:number|null}) => {
         {product && (
          <>        
             {size.length > 0 && product?.name &&(
-              <div><img src={`${staticUrl}/${product.created}/${size[1]}/${product.name}`} alt="" style={{width: '50%'}}/>
+              <div><img src={`${staticUrl}/${product.created_at}/${size[1]}/${product.name}`} alt="" style={{width: '50%'}}/>
                 <div onClick={handleDeleteImage}><button>remove image</button></div>
               </div>
           )}
