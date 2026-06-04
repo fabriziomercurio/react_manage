@@ -26,7 +26,7 @@ const navigate = (path:Router) =>
         <button onClick={() => navigate({"path":'/products'})}>products</button>
       </nav>
     </div> 
-    {renderRoute(route)}
+    {/* {renderRoute(route)} */}
     </>
   )
 }

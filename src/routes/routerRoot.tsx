@@ -3,7 +3,7 @@ import { useRoute } from "../features/products/hooks/useRoute";
 import ProductPage from "../features/products/pages/productsPage";
 
 export default function RouterRoot() {
-    const { parameter, navigate } = useRoute();
+    const { parameter } = useRoute();
 
     if (parameter.path === "/edit/") {
         return <EditProduct id={parameter.id} />;
