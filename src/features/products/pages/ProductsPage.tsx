@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { useProducts } from "../hooks/useProduct";
-import ProductList from "../components/productList";
-import {useRoute} from "../hooks/useRoute"; 
+import { useProducts } from "../hooks/UseProduct";
+import ProductList from "../components/ProductList";
+import {useRoute} from "../../navbar/hooks/UseRoute"; 
 
 const ProductPage = () => { 
 

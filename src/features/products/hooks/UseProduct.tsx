@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { getProducts } from "../api/productsApi"; 
+import { getProducts } from "../api/ProductsApi"; 
 import type { Product } from "../../../types/Product";
 
 export function useProducts(){ 

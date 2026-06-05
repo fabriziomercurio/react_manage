@@ -1,7 +1,6 @@
 import { useState } from "react";
-import type { UserRegister } from "../../../types/UserRegister";
 import { registerUser } from "../api/UserApi";
-const baseUrl = import.meta.env.VITE_BASE_URL;
+import type { UserRegister } from "../../../types/User";
 
 export function useRegister(){ 
 
@@ -13,16 +12,13 @@ export function useRegister(){
      setFormData({
         ...formData, 
         [name]:value
-     })
+     }) 
    }
 
     const submit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const data = await registerUser({
-                  email: formData.email,
-                  password: formData.password
-            }); 
+            const data = await registerUser({email: formData.email,password: formData.password}); 
             console.log("Server Response:", data);
         } catch (err) {
             console.log("Err:", err);

@@ -1,9 +1,8 @@
-import Login from "../components/Login";
 import EditProduct from "../components/products/EditProduct";
-import Register from "../features/products/components/register";
-import { useRoute } from "../features/products/hooks/useRoute";
-import ProductPage from "../features/products/pages/productsPage";
-import RegisterPage from "../features/products/pages/registerPage";
+import { useRoute } from "../features/navbar/hooks/UseRoute";
+import LoginPage from "../features/users/pages/LoginPage";
+import ProductPage from "../features/products/pages/ProductsPage";
+import RegisterPage from "../features/users/pages/RegisterPage";
 
 export default function RouterRoot() {
     const { parameter } = useRoute();
@@ -13,7 +12,7 @@ export default function RouterRoot() {
     } 
 
     if (parameter.path === "/login/") {
-        return <Login />;
+        return <LoginPage />;
     } 
 
     if (parameter.path === "/register/") {

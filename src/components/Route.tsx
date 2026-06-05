@@ -4,7 +4,7 @@ import Dashboard from "./Dashboard";
 import AddProduct from "./products/AddProduct";
 import EditProduct from "./products/EditProduct";
 
-import ProductPage from "../features/products/pages/productsPage.js";
+import ProductPage from "../features/products/pages/ProductsPage.js";
 
 import type { Router } from '../types/Router';
 
