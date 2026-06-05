@@ -8,16 +8,22 @@ let globalParameter = {
 let listeners: any[] = [];
 
 export function useRoute() {
-
     const [, forceUpdate] = useState({});
 
     useEffect(() => {
         listeners.push(forceUpdate);
+
+        return () => {
+            listeners = listeners.filter(
+                listener => listener !== forceUpdate
+            );
+        }; 
     }, []);
 
     const navigate = (router: any) => {
         globalParameter = router;
-        listeners.forEach(l => l({}));
+
+        listeners.forEach(listener => listener({}));
     };
 
     return {

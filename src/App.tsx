@@ -2,19 +2,23 @@ import { useState } from 'react'
 import renderRoute from './components/Route'; 
 import type { Router } from './types/Router';
 import './App.css'
+import Navbar from './features/products/components/navbar';
+import { useRoute } from './features/products/hooks/useRoute';
 
 function App() { 
 
 const [route,setRoute] = useState<Router>({"path":"","id":null}); 
+const {navigate} = useRoute();  
 
-const navigate = (path:Router) => 
-{
-    setRoute(path); 
-}
+// const navigate = (path:Router) => 
+// {
+//     setRoute(path); 
+// }
 
   return (
     <> 
-    <div>
+    <Navbar navigate={navigate}  />
+    {/* <div>
       <nav>
         <button onClick={() => navigate({"path":'/'})}>home</button>
         <button onClick={() => navigate({"path":'/about'})}>about</button> 
@@ -25,7 +29,7 @@ const navigate = (path:Router) =>
 
         <button onClick={() => navigate({"path":'/products'})}>products</button>
       </nav>
-    </div> 
+    </div>  */}
     {/* {renderRoute(route)} */}
     </>
   )
