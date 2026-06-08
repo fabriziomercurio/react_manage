@@ -4,6 +4,7 @@ import LoginPage from "../features/users/pages/LoginPage";
 import ProductPage from "../features/products/pages/ProductsPage";
 import RegisterPage from "../features/users/pages/RegisterPage";
 import AddProductPage from "../features/products/pages/AddProductPage";
+import EditProductPage from "../features/products/pages/EditProductPage";
 
 export default function RouterRoot() {
     const { parameter } = useRoute();
@@ -11,6 +12,10 @@ export default function RouterRoot() {
     if (parameter.path === "/edit/") {
         return <EditProduct id={parameter.id} />;
     } 
+
+    if (parameter.path === "/edit-new/") {
+        return <EditProductPage id={parameter.id}/> 
+    }
 
     if (parameter.path === "/login/") {
         return <LoginPage />;

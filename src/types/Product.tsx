@@ -5,3 +5,8 @@ export type Product = {
     created_at: string;
     imageId:number|null;
 };
+
+export type ProductRegister = { 
+    title: string;
+    image: Blob|null;
+}

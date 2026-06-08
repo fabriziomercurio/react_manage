@@ -125,7 +125,7 @@ const EditProduct = ({id}: {id?:number|null}) => {
 
     return (
     <form onSubmit={submitUpdateForm}> 
-        <label htmlFor="title">Title:</label><br /> 
+        <label htmlFor="title">Titlexxxxxxxxxxxxxxxxxxx:</label><br /> 
         { product && 
            (<>
            <input type="text" name="title" value={prodUpdate.title} onChange={handleInputChange}  /><br />

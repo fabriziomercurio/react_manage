@@ -6,7 +6,7 @@ export default function ProductList({products,navigate}:{products:Product[];navi
    return(<><div>Lista Prodotti</div>
           {
             products.map((product:any) => (
-                <div key={product.id}>{product.title} <button onClick={() => navigate({"path":'/edit/',"id":product.id})}>{product.id}</button> </div>
+                <div key={product.id}>{product.title} <button onClick={() => navigate({"path":'/edit-new/',"id":product.id})}>{product.id}</button> </div>
             ))
           }
    </>)
