@@ -3,6 +3,7 @@ import { useRoute } from "../features/navbar/hooks/UseRoute";
 import LoginPage from "../features/users/pages/LoginPage";
 import ProductPage from "../features/products/pages/ProductsPage";
 import RegisterPage from "../features/users/pages/RegisterPage";
+import AddProductPage from "../features/products/pages/AddProductPage";
 
 export default function RouterRoot() {
     const { parameter } = useRoute();
@@ -21,6 +22,10 @@ export default function RouterRoot() {
 
     if (parameter.path === "/products/") {
         return <ProductPage />;
+    } 
+
+    if (parameter.path === "/product-store/") {
+        return <AddProductPage /> 
     }
 
    return <ProductPage />;

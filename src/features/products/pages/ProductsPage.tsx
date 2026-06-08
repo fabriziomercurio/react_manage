@@ -1,11 +1,11 @@
 import { useEffect } from "react";
-import { useProducts } from "../hooks/UseProduct";
+import { useGetProducts } from "../hooks/UseGetProducts";
 import ProductList from "../components/ProductList";
 import {useRoute} from "../../navbar/hooks/UseRoute"; 
 
 const ProductPage = () => { 
 
-    const {products, fetchProducts} = useProducts(); 
+    const {products, fetchProducts} = useGetProducts(); 
     const {navigate} = useRoute();
    
     useEffect(() => {
