@@ -7,6 +7,6 @@ import RouterRoot from './routes/RouterRoot.tsx'
 createRoot(document.getElementById('root')!).render(
   <StrictMode> 
     <App />
-    <RouterRoot /> 
+    <RouterRoot />
   </StrictMode>,
 )

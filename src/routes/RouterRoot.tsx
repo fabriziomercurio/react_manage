@@ -1,19 +1,18 @@
-import EditProduct from "../components/products/EditProduct";
 import { useRoute } from "../features/navbar/hooks/UseRoute";
 import LoginPage from "../features/users/pages/LoginPage";
 import ProductPage from "../features/products/pages/ProductsPage";
 import RegisterPage from "../features/users/pages/RegisterPage";
 import AddProductPage from "../features/products/pages/AddProductPage";
 import EditProductPage from "../features/products/pages/EditProductPage";
+import { AuthService } from "../services/AuthService";
 
 export default function RouterRoot() {
-    const { parameter } = useRoute();
+    
+    const { parameter } = useRoute(); 
+
+    const token = AuthService.getToken(); 
 
     if (parameter.path === "/edit/") {
-        return <EditProduct id={parameter.id} />;
-    } 
-
-    if (parameter.path === "/edit-new/") {
         return <EditProductPage id={parameter.id}/> 
     }
 
@@ -23,9 +22,9 @@ export default function RouterRoot() {
 
     if (parameter.path === "/register/") {
         return <RegisterPage />;
-    } 
+    }
 
-    if (parameter.path === "/products/") {
+    if (parameter.path === "/products/" && token) {
         return <ProductPage />;
     } 
 
@@ -33,5 +32,5 @@ export default function RouterRoot() {
         return <AddProductPage /> 
     }
 
-   return <ProductPage />;
+   return <LoginPage />;
 }

@@ -8,5 +8,7 @@ export type Product = {
 
 export type ProductRegister = { 
     title: string;
+    name?:string;
     image: Blob|null;
+    removeImage:boolean;
 }

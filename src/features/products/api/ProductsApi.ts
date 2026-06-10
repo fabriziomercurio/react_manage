@@ -66,4 +66,21 @@ export async function updateProduct(id:number,payload:any)
     }
 
     return data; 
+} 
+
+export async function DeleteRecord(id:number){ 
+   
+    const response = await fetch(`${baseUrl}/product/${id}`,{
+          method:"DELETE"
+      }); 
+
+     const data = await response.json(); 
+
+      if (!response.ok) {
+         throw new Error( 
+            data?.message || `HTTP ${response.status} - Error fetching products`
+        );
+      } 
+
+     return data; 
 }

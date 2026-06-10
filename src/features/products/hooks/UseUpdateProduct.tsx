@@ -1,14 +1,19 @@
 import { useState } from "react";
 import type { ProductRegister } from "../../../types/Product";
-import { getProduct, updateProduct } from "../api/ProductsApi";
+import { DeleteRecord, getProduct, updateProduct } from "../api/ProductsApi";
+const staticUrl = import.meta.env.VITE_STATIC_URL;
 
 export function UseUpdateProduct(id:any){ 
 
-    const [product,setUpdateProduct] = useState<ProductRegister>({title:'',image:null}); 
+    const [product,setUpdateProduct] = useState<ProductRegister>({title:'',image:null,name:'',removeImage:false});  
+    const [size,setSize] = useState<string[]>([]);
 
     async function fetchProduct(id: any){
         const data = await getProduct(id);
-        console.log(data.result); 
+        if (data.sizes) {
+           setSize(data.sizes[1]); 
+        }        
+       
         setUpdateProduct(data.result);
     };
 
@@ -20,22 +25,43 @@ export function UseUpdateProduct(id:any){
         }))      
     } 
 
-    const submit = async (e: React.FormEvent<HTMLFormElement>) => { 
+    const handleDeleteImage = (e:any) => {
+       e.preventDefault(); 
+       setUpdateProduct((prev) => ({
+        ...prev,
+        removeImage: true
+        }));
+    }
+
+    const handleDeleteRecord = async (e:any) => {
         e.preventDefault(); 
-        console.log(product.title) 
+        try {
+            const data = await DeleteRecord(id); 
+            console.log(data); 
+          
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const submitUpdate = async (e: React.FormEvent<HTMLFormElement>) => { 
+        console.log(product); 
+        e.preventDefault(); 
+
         const res = new FormData; 
         res.append("title", product.title); 
         res.append("image", product.image ?? ''); 
+        res.append("removeImage", String(product.removeImage));
 
         try {
             const data = await updateProduct(id,res); 
             console.log("Server Response:", data);
         } catch (err) {
             console.log("Err:", err);
-        }
+        }  
     }
   
     return {
-        submit,handleInputChange,fetchProduct,product
+        submitUpdate,handleInputChange,fetchProduct,product,staticUrl,size,handleDeleteRecord,handleDeleteImage
     }
 }

@@ -4,7 +4,7 @@ import { UseUpdateProduct } from "../hooks/UseUpdateProduct";
 
 const EditProductPage = ({id}: {id?:number|null}) => 
 {   
-    const {submit,handleInputChange,fetchProduct,product} = UseUpdateProduct(id); 
+    const {submitUpdate,handleInputChange,fetchProduct,product,staticUrl,size,handleDeleteRecord,handleDeleteImage} = UseUpdateProduct(id); 
 
     useEffect(() => { 
             fetchProduct(id) 
@@ -12,7 +12,9 @@ const EditProductPage = ({id}: {id?:number|null}) =>
 
     return(
         <>
-        <EditProduct submit={submit} handleInputChange={handleInputChange} product={product}/> 
+        <EditProduct submit={submitUpdate} handleInputChange={handleInputChange} 
+        product={product} url={staticUrl} size={size} 
+        delete={handleDeleteRecord} deleteImage={handleDeleteImage} /> 
         </>
     )
 }
