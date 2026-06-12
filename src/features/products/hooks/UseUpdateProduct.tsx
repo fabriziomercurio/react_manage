@@ -17,13 +17,15 @@ export function UseUpdateProduct(id:any){
         setUpdateProduct(data.result);
     };
 
-    const handleInputChange = (e:any) => { 
-        const {name, value, type, files} = e.target; 
-        setUpdateProduct((prev)=>({
-            ...prev, 
-            [name]:type === 'file' && files ? files[0] : value 
-        }))      
-    } 
+    const handleInputChange = (e:any) => {
+    const { name, value, type, files } = e.target;
+
+    setUpdateProduct((prev) => ({
+        ...prev,
+        [name]: type === 'file' && files ? files[0] : value,
+        removeImage: type === 'file' && files ? false : prev.removeImage // If you choose a new file, removeimage automatically reverts to false
+    }));
+}
 
     const handleDeleteImage = (e:any) => {
        e.preventDefault(); 
