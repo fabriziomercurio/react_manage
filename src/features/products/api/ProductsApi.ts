@@ -1,8 +1,20 @@
+import { AuthService } from "../../../services/AuthService";
+
 const baseUrl = import.meta.env.VITE_BASE_URL
 
 export async function getProducts() 
 {
-    const response = await fetch(`${baseUrl}/products`);    
+    const response = await fetch(`${baseUrl}/products`,{
+        method:"GET",
+        headers: {
+            'Content-Type': 'application/json', 
+            'Authorization': `Bearer ${AuthService.getToken()}`   
+        },
+    });    
+
+    if (response.status === 401) { 
+         throw new Error('UNAUTHORIZED');
+    }
 
     if (!response.ok) {
         const errorData = await response.json().catch(() => null);
@@ -17,7 +29,13 @@ export async function getProducts()
 
 export async function getProduct(id:number) 
 {   
-    const response = await fetch(`${baseUrl}/products/${id}`);    ///products/:productId
+    const response = await fetch(`${baseUrl}/products/${id}`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json', 
+            'Authorization': `Bearer ${AuthService.getToken()}`   
+        }
+    });    ///products/:productId
 
     if (!response.ok) {
         const errorData = await response.json().catch(() => null);
@@ -31,9 +49,12 @@ export async function getProduct(id:number)
 }
 
 export async function storeProducts(payload:any) 
-{
+{  
     const response = await fetch(`${baseUrl}/products`,{
         method: "POST",
+        headers: {
+            'Authorization': `Bearer ${AuthService.getToken()}`   
+        }, 
         body: payload
     });
 
@@ -53,6 +74,9 @@ export async function updateProduct(id:number,payload:any)
 {
     const response = await fetch(`${baseUrl}/product/${id}`,{
         method: "PUT",
+        headers: {
+            'Authorization': `Bearer ${AuthService.getToken()}`   
+        },
         body: payload
     });
 
@@ -71,7 +95,10 @@ export async function updateProduct(id:number,payload:any)
 export async function DeleteRecord(id:number){ 
    
     const response = await fetch(`${baseUrl}/product/${id}`,{
-          method:"DELETE"
+        method:"DELETE",
+        headers: {
+            'Authorization': `Bearer ${AuthService.getToken()}`   
+        },
       }); 
 
      const data = await response.json(); 

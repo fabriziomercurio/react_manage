@@ -12,13 +12,13 @@ export default function RouterRoot() {
 
     const token = AuthService.getToken(); 
 
-    if (parameter.path === "/edit/") {
-        return <EditProductPage id={parameter.id}/> 
-    }
-
     if (parameter.path === "/login/") {
         return <LoginPage />;
     } 
+
+    if (parameter.path === "/edit/" && token) {
+        return <EditProductPage id={parameter.id}/> 
+    }    
 
     if (parameter.path === "/register/") {
         return <RegisterPage />;
@@ -28,7 +28,7 @@ export default function RouterRoot() {
         return <ProductPage />;
     } 
 
-    if (parameter.path === "/product-store/") {
+    if (parameter.path === "/product-store/" && token) {
         return <AddProductPage /> 
     }
 

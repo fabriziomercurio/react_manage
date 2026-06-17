@@ -19,8 +19,8 @@ export function useLogin(){
         e.preventDefault(); 
         try {
             const res = await loginUser({ email: formData.email,password: formData.password})
-            console.log("Server Response:", res);
-            AuthService.setToken(`fake-token`); 
+            AuthService.setToken(res.JWT); 
+            console.log(res)
         } catch (err) { 
             console.log("Err:", err);
         }
