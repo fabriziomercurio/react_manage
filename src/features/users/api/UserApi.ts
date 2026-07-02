@@ -14,11 +14,10 @@ export async function registerUser(payload:UserRegister){
     });  
 
         if (!response.ok) {
-        const errorData = await response.json().catch(() => null);
 
-        throw new Error(
-            errorData?.error || `HTTP ${response.status} - Error fetching products`
-        );
+        const errorData = await response.json().catch(() => null); 
+    
+        throw errorData;
     }
 
     return response.json() 
@@ -36,11 +35,16 @@ export async function loginUser(payload:UserLogin)
 
         const data = await response.json().catch(() => null); 
 
-        if (!response.ok) {     
+        if (!response.ok) { 
+            
+        // const errorData = await response.json().catch(() => null); 
+    
+        throw data;
 
-        throw new Error( 
-            data?.message || `HTTP ${response.status} - Error fetching products`
-        );
+        // throw new Error( 
+        //     // data?.message || `HTTP ${response.status} - Error fetching products`
+        //     data?.message
+        // );
     }
 
     return data; 

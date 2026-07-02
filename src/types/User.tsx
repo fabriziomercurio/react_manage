@@ -1,11 +1,13 @@
 export type UserLoginProps = {
     submitLogin: React.FormEventHandler<HTMLFormElement>;
     handleInputChange: React.ChangeEventHandler<HTMLInputElement>;
+    error:any
 } 
 
 export type UserRegisterProps = {
     submit: React.FormEventHandler<HTMLFormElement>;
-    handleInputChange: React.ChangeEventHandler<HTMLInputElement>;
+    handleInputChange: React.ChangeEventHandler<HTMLInputElement>; 
+    error:any
 } 
 
 export type UserLogin = { 
