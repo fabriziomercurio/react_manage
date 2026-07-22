@@ -1,20 +1,31 @@
 import { AuthService } from "../../../services/AuthService";
+import { RefreshToken } from "../../auth/api/RefreshToken";
 
 const baseUrl = import.meta.env.VITE_BASE_URL
 
 export async function getProducts() 
 {
-    const response = await fetch(`${baseUrl}/products`,{
+    let response = await fetch(`${baseUrl}/products`,{
         method:"GET",
         headers: {
             'Content-Type': 'application/json', 
-            'Authorization': `Bearer ${AuthService.getToken()}`   
+            'Authorization': `Bearer ${AuthService.getAccessToken()}`   
         },
     });    
 
     if (response.status === 401) { 
-         throw new Error('UNAUTHORIZED');
-    }
+        const result = await RefreshToken(AuthService.getRefreshToken()); 
+          
+        AuthService.setAccessToken(result.accessToken); 
+        
+        response = await fetch(`${baseUrl}/products`,{
+        method:"GET",
+        headers: {
+            'Content-Type': 'application/json', 
+            'Authorization': `Bearer ${result.accessToken}`   
+        },
+      }); 
+    } 
 
     if (!response.ok) {
         const errorData = await response.json().catch(() => null);
@@ -33,7 +44,7 @@ export async function getProduct(id:number)
         method: "GET",
         headers: {
             'Content-Type': 'application/json', 
-            'Authorization': `Bearer ${AuthService.getToken()}`   
+            'Authorization': `Bearer ${AuthService.getAccessToken()}`   
         }
     });    ///products/:productId
 
@@ -53,7 +64,7 @@ export async function storeProducts(payload:any)
     const response = await fetch(`${baseUrl}/products`,{
         method: "POST",
         headers: {
-            'Authorization': `Bearer ${AuthService.getToken()}`   
+            'Authorization': `Bearer ${AuthService.getAccessToken()}`   
         }, 
         body: payload
     });
@@ -75,7 +86,7 @@ export async function updateProduct(id:number,payload:any)
     const response = await fetch(`${baseUrl}/product/${id}`,{
         method: "PUT",
         headers: {
-            'Authorization': `Bearer ${AuthService.getToken()}`   
+            'Authorization': `Bearer ${AuthService.getAccessToken()}`   
         },
         body: payload
     });
@@ -97,7 +108,7 @@ export async function DeleteRecord(id:number){
     const response = await fetch(`${baseUrl}/product/${id}`,{
         method:"DELETE",
         headers: {
-            'Authorization': `Bearer ${AuthService.getToken()}`   
+            'Authorization': `Bearer ${AuthService.getAccessToken()}`   
         },
       }); 
 

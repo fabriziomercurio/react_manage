@@ -10,7 +10,7 @@ export default function RouterRoot() {
     
     const { parameter } = useRoute(); 
 
-    const token = AuthService.getToken(); 
+    const token = AuthService.getAccessToken(); 
 
     if (parameter.path === "/login/") {
         return <LoginPage />;

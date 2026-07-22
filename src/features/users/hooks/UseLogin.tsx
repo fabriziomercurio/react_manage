@@ -21,7 +21,8 @@ export function useLogin(){
         e.preventDefault(); 
         try {
             const res = await loginUser({ email: formData.email,password: formData.password})
-            AuthService.setToken(res.JWT); 
+            AuthService.setAccessToken(res.accessToken);  
+            AuthService.setRefreshToken(res.refreshToken); 
             console.log(res)
         } catch (err:any) {  
             
