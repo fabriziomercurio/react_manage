@@ -15,10 +15,13 @@ export async function RefreshToken(token:string | null)
      token: token,
      }),
     });  
-
+ 
+    if (response.status === 401) {
+        throw new Error('UNAUTHORIZED');
+    }
     const result = await response.json(); 
 
-    if (!response.ok) {
+    if (!response.ok) { 
         if (result.message == 'Token_Expired') {      
             throw new Error('UNAUTHORIZED');
         } 

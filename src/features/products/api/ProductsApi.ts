@@ -14,10 +14,10 @@ export async function getProducts()
     });    
 
     if (response.status === 401) { 
-        const result = await RefreshToken(AuthService.getRefreshToken()); 
-          
+        const result = await RefreshToken(AuthService.getRefreshToken());        
         AuthService.setAccessToken(result.accessToken); 
-        
+        AuthService.setRefreshToken(result.refreshToken); 
+        console.log('refresh is running')
         response = await fetch(`${baseUrl}/products`,{
         method:"GET",
         headers: {
