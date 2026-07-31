@@ -5,6 +5,7 @@ import RegisterPage from "../features/users/pages/RegisterPage";
 import AddProductPage from "../features/products/pages/AddProductPage";
 import EditProductPage from "../features/products/pages/EditProductPage";
 import { AuthService } from "../services/AuthService";
+import LogoutPage from "../features/products/pages/LogoutPage";
 
 export default function RouterRoot() {
     
@@ -30,6 +31,10 @@ export default function RouterRoot() {
 
     if (parameter.path === "/product-store/" && token) {
         return <AddProductPage /> 
+    } 
+
+    if (parameter.path === "/logout/" && token) {
+        return <LogoutPage /> 
     }
 
    return <LoginPage />;
