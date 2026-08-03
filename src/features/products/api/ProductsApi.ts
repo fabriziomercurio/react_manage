@@ -27,6 +27,13 @@ export async function getProducts()
       }); 
     } 
 
+    if (response.status === 403) {
+        localStorage.removeItem("accessToken"); 
+        localStorage.removeItem("refreshToken"); 
+        window.location.href = '/login'; 
+        return;
+    }
+
     if (!response.ok) {
         const errorData = await response.json().catch(() => null);
 
