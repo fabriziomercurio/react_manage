@@ -34,12 +34,13 @@ export async function loginUser(payload:UserLogin)
     });  
 
         const data = await response.json().catch(() => null); 
-
+  
         if (!response.ok) { 
+          
             
         // const errorData = await response.json().catch(() => null); 
     
-        throw data;
+       throw data;
 
         // throw new Error( 
         //     // data?.message || `HTTP ${response.status} - Error fetching products`
