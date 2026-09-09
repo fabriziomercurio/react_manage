@@ -66,8 +66,8 @@ export async function getProduct(id:number)
     return response.json();
 }
 
-export async function storeProducts(payload:any) 
-{  
+export async function storeProducts(payload:FormData) 
+{   
     const response = await fetch(`${baseUrl}/products`,{
         method: "POST",
         headers: {

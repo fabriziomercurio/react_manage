@@ -1,11 +1,11 @@
 import { useState } from "react";
-import type { ProductRegister } from "../../../types/Product";
+import type { ProductUpdate } from "../../../types/Product";
 import { DeleteRecord, getProduct, updateProduct } from "../api/ProductsApi";
 const staticUrl = import.meta.env.VITE_STATIC_URL;
 
 export function UseUpdateProduct(id:any){ 
 
-    const [product,setUpdateProduct] = useState<ProductRegister>({title:'',image:null,name:'',removeImage:false});  
+    const [product,setUpdateProduct] = useState<ProductUpdate>({title:'',image:null,name:'',removeImage:false});  
     const [size,setSize] = useState<string[]>([]);
 
     async function fetchProduct(id: any){

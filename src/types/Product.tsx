@@ -6,7 +6,7 @@ export type Product = {
     imageId:number|null;
 };
 
-export type ProductRegister = { 
+export type ProductUpdate = { 
     title: string;
     name?:string;
     image: Blob|null;
