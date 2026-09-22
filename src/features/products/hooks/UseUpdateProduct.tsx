@@ -5,7 +5,6 @@ const staticUrl = import.meta.env.VITE_STATIC_URL;
 
 export function UseUpdateProduct(id:any){ 
 
-    // const [product,setUpdateProduct] = useState<ProductUpdate>({title:'',image:null,name:'',removeImage:false});  
     const [product,setUpdateProduct] = useState({title:'',images:[] as (any | null)[],name:'',removeImage:false});
     const [size,setSize] = useState<string[]>([]);
 
@@ -15,13 +14,40 @@ export function UseUpdateProduct(id:any){
         
         if (data.sizes) {
            setSize(data.sizes[1]); 
-        }        
-       
-        setUpdateProduct({title:data.result[0]?.title,images:data.result,name:data.result[0]?.name,removeImage:false}); 
+        }   
+     const fetchedImages = data?.result || [];   
+    if (fetchedImages.length === 0) {
+            setUpdateProduct({title:data.result[0]?.title,images:data.result,name:data.result[0]?.name,removeImage:false}); 
+            return
+    }
+
+    let slotArray = fetchedImages.map((element: any) => Number(element.slot));
+
+    const maxSlot = Math.max(...slotArray);
+
+        // 3. Creiamo l'array normalizzato con i buchi riempiti da null
+        const normalized = Array(maxSlot + 1).fill(null); 
+
+        fetchedImages.forEach(({ name, slot, created_at }: any) => {
+            normalized[slot] = { name, slot, created_at };
+        });
+console.log(normalized)
+        console.log(normalized)
+
+        setUpdateProduct({
+            title: data.result[0]?.title,
+            images: normalized,
+            name: data.result[0]?.name,
+            removeImage: false
+        });
+
+    
     }; 
 
     useEffect(() => { 
             fetchProduct(id) 
+
+            
         },[id]) 
 
     const handleInputChange = (e:any) => {
@@ -33,7 +59,11 @@ export function UseUpdateProduct(id:any){
         removeImage: type === 'file' && files ? false : prev.removeImage // If you choose a new file, removeimage automatically reverts to false
     }));  
 
-    console.log(product)
+
+   
+
+   
+
 }
 
     const handleDeleteImage = (e:any) => {

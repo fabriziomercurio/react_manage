@@ -9,6 +9,6 @@ export type Product = {
 export type ProductUpdate = { 
     title: string;
     name?:string;
-    image: Blob|null;
+    images: (File | null)[];
     removeImage:boolean;
 }

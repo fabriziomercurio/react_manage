@@ -1,14 +1,9 @@
-import { useEffect } from "react";
 import EditProduct from "../components/EditProduct";
 import { UseUpdateProduct } from "../hooks/UseUpdateProduct";
 
 const EditProductPage = ({id}: {id?:number|null}) => 
 {   
-    const {submitUpdate,handleInputChange,fetchProduct,product,staticUrl,size,handleDeleteRecord,handleDeleteImage} = UseUpdateProduct(id); 
-
-    // useEffect(() => { 
-    //         fetchProduct(id) 
-    //     },[id]) 
+    const {submitUpdate,handleInputChange,product,staticUrl,size,handleDeleteRecord,handleDeleteImage} = UseUpdateProduct(id); 
 
     return(
         <>
