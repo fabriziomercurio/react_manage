@@ -35,9 +35,10 @@ export function UseStoreProduct(){
         const res = new FormData;       
         res.append("title", product.title); 
         
-        product.images.forEach(image => {        
+        product.images.forEach((image,index) => {     
             if (image) {
                 res.append("image",image);
+                res.append("slot",String(index));            
            }                    
         })
 
