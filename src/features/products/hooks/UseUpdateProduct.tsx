@@ -1,21 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { ProductUpdate } from "../../../types/Product";
 import { DeleteRecord, getProduct, updateProduct } from "../api/ProductsApi";
 const staticUrl = import.meta.env.VITE_STATIC_URL;
 
 export function UseUpdateProduct(id:any){ 
 
-    const [product,setUpdateProduct] = useState<ProductUpdate>({title:'',image:null,name:'',removeImage:false});  
+    // const [product,setUpdateProduct] = useState<ProductUpdate>({title:'',image:null,name:'',removeImage:false});  
+    const [product,setUpdateProduct] = useState({title:'',images:[] as (any | null)[],name:'',removeImage:false});
     const [size,setSize] = useState<string[]>([]);
 
     async function fetchProduct(id: any){
+
         const data = await getProduct(id);
+        
         if (data.sizes) {
            setSize(data.sizes[1]); 
         }        
        
-        setUpdateProduct(data.result);
-    };
+        setUpdateProduct({title:data.result[0]?.title,images:data.result,name:data.result[0]?.name,removeImage:false}); 
+    }; 
+
+    useEffect(() => { 
+            fetchProduct(id) 
+        },[id]) 
 
     const handleInputChange = (e:any) => {
     const { name, value, type, files } = e.target;
@@ -24,7 +31,9 @@ export function UseUpdateProduct(id:any){
         ...prev,
         [name]: type === 'file' && files ? files[0] : value,
         removeImage: type === 'file' && files ? false : prev.removeImage // If you choose a new file, removeimage automatically reverts to false
-    }));
+    }));  
+
+    console.log(product)
 }
 
     const handleDeleteImage = (e:any) => {

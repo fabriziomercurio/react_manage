@@ -6,9 +6,9 @@ const EditProductPage = ({id}: {id?:number|null}) =>
 {   
     const {submitUpdate,handleInputChange,fetchProduct,product,staticUrl,size,handleDeleteRecord,handleDeleteImage} = UseUpdateProduct(id); 
 
-    useEffect(() => { 
-            fetchProduct(id) 
-        },[id]) 
+    // useEffect(() => { 
+    //         fetchProduct(id) 
+    //     },[id]) 
 
     return(
         <>
