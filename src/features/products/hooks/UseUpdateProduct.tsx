@@ -1,38 +1,33 @@
 import { useEffect, useState } from "react";
-import type { ProductUpdate } from "../../../types/Product";
 import { DeleteRecord, getProduct, updateProduct } from "../api/ProductsApi";
 const staticUrl = import.meta.env.VITE_STATIC_URL;
 
 export function UseUpdateProduct(id:any){ 
 
-    const [product,setUpdateProduct] = useState({title:'',images:[] as (any | null)[],name:'',removeImage:false});
-    const [size,setSize] = useState<string[]>([]);
+    const [product,setUpdateProduct] = useState({title:'',images:[] as (File | null)[],name:'',removeImage:false});
+    const [size,setSize] = useState<string[]>([]); 
+
+    const [slots,setSlots] = useState<number[]>([]);
 
     async function fetchProduct(id: any){
 
-        const data = await getProduct(id);
-        
-        if (data.sizes) {
-           setSize(data.sizes[1]); 
-        }   
-     const fetchedImages = data?.result || [];   
-    if (fetchedImages.length === 0) {
-            setUpdateProduct({title:data.result[0]?.title,images:data.result,name:data.result[0]?.name,removeImage:false}); 
-            return
-    }
+    const data = await getProduct(id);
+    
+    if (data.sizes) {
+       setSize(data.sizes[1]); 
+    }  
 
-    let slotArray = fetchedImages.map((element: any) => Number(element.slot));
+    if (data.result.length > 0 && data.result[0]?.slot !== undefined) {
+        let slotArray = data.result.map((element: any) => Number(element.slot));
 
-    const maxSlot = Math.max(...slotArray);
+        const maxSlot = Math.max(...slotArray);
 
         // 3. Creiamo l'array normalizzato con i buchi riempiti da null
         const normalized = Array(maxSlot + 1).fill(null); 
 
-        fetchedImages.forEach(({ name, slot, created_at }: any) => {
+        data.result.forEach(({ name, slot, created_at }: any) => {
             normalized[slot] = { name, slot, created_at };
         });
-console.log(normalized)
-        console.log(normalized)
 
         setUpdateProduct({
             title: data.result[0]?.title,
@@ -40,31 +35,74 @@ console.log(normalized)
             name: data.result[0]?.name,
             removeImage: false
         });
-
-    
+    }else{
+        setUpdateProduct({
+            title: data.result[0]?.title,
+            images: [null],
+            name: data.result[0]?.name,
+            removeImage: false
+        });
+      }
     }; 
 
     useEffect(() => { 
-            fetchProduct(id) 
+        fetchProduct(id)             
+    },[id]) 
 
-            
-        },[id]) 
+    useEffect(() => { 
+      console.log("Product state updated:", product); 
+    },[product])
 
     const handleInputChange = (e:any) => {
-    const { name, value, type, files } = e.target;
+    const { name, value, type, files, dataset } = e.target;
 
-    setUpdateProduct((prev) => ({
+    // if (type === "file" && files) {
+
+    //     setUpdateProduct((prev) => { 
+    //         const index = Number(dataset.index);
+    //         const images = [...prev.images];
+    //         while (images.length <= index) {
+    //             images.push(null);
+    //         }
+    //         images[index] = files[0];  
+    //         return { ...prev, images }; // If you choose a new file, removeImage automatically reverts to false
+    //     });
+    // }else{
+    //     setUpdateProduct((prev) => ({
+    //     ...prev,
+    //     [name]: value,
+    //   }))
+    //  }  
+
+
+
+    if (type === "file" && files) {
+    const index = Number(dataset.index);
+        setUpdateProduct((prev) => { 
+            
+            const images = [...prev.images];
+            while (images.length <= index) {
+                images.push(null);
+            }
+            images[index] = files[0];  
+            return { ...prev, images }; // If you choose a new file, removeImage automatically reverts to false
+        }); 
+
+        setSlots((prev) => {
+        if (prev.includes(index)) {
+            return prev;
+        }
+
+        return [...prev, index];
+    }); 
+
+    }else{
+        setUpdateProduct((prev) => ({
         ...prev,
-        [name]: type === 'file' && files ? files[0] : value,
-        removeImage: type === 'file' && files ? false : prev.removeImage // If you choose a new file, removeimage automatically reverts to false
-    }));  
-
-
-   
-
-   
-
-}
+        [name]: value,
+      }))
+     }
+    }
 
     const handleDeleteImage = (e:any) => {
        e.preventDefault(); 
@@ -86,12 +124,21 @@ console.log(normalized)
     }
 
     const submitUpdate = async (e: React.FormEvent<HTMLFormElement>) => { 
-        console.log(product); 
         e.preventDefault(); 
 
         const res = new FormData; 
         res.append("title", product.title); 
-        res.append("image", product.image ?? ''); 
+     
+        product.images.forEach((image, index) => {
+            if (image) { 
+                res.append("image", image) 
+            }
+        });
+
+        slots.forEach((slot) => {
+            res.append("slot", String(slot));
+        });
+
         res.append("removeImage", String(product.removeImage));
 
         try {

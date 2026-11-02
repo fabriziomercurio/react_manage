@@ -53,7 +53,7 @@ export async function getProduct(id:number)
             'Content-Type': 'application/json', 
             'Authorization': `Bearer ${AuthService.getAccessToken()}`   
         }
-    });    ///products/:productId
+    });  
 
     if (!response.ok) {
         const errorData = await response.json().catch(() => null);

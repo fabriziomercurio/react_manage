@@ -8,6 +8,7 @@ import Login from './features/users/components/Login';
 import { useLogin } from './features/users/hooks/UseLogin';
 import AddProductPage from './features/products/pages/AddProductPage';
 import RegisterPage from './features/users/pages/RegisterPage';
+import EditProductPage from './features/products/pages/EditProductPage';
 
 function App() { 
 
@@ -37,6 +38,12 @@ useEffect(() => {
     {parameter.path === "/product-store" && <AddProductPage />} 
 
     {parameter.path === "/register" && <RegisterPage />} 
+
+     {parameter.path === "/edit/" && (
+                <EditProductPage
+                    id={parameter.id}
+                />
+            )}
     </>
   )
 }
