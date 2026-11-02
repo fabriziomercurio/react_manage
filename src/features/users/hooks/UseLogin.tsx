@@ -3,8 +3,11 @@ import { AuthService } from "../../../services/AuthService";
 import { loginUser } from "../api/UserApi";
 import type { UserLogin } from "../../../types/User";
 import mapErrors from "../../../helpers/MapErrors";
+import { useRoute } from "../../navbar/hooks/UseRoute";
 
 export function useLogin(){ 
+
+    const { navigate } = useRoute();
 
     const [formData, setFormData] = useState<UserLogin>({ 'email': '', 'password': '' }); 
     const [error, setError] = useState<Record<string, string[]>>()
@@ -23,8 +26,12 @@ export function useLogin(){
             const res = await loginUser({ email: formData.email,password: formData.password})
             AuthService.setAccessToken(res.accessToken);  
             AuthService.setRefreshToken(res.refreshToken); 
-            console.log(res)
+            console.log("Login completato:", res);
+            // window.location.href = '/products';
+            navigate({ path: "/products", id: null });
+            return
         } catch (err:any) {  
+            console.error("Errore durante il login:", err);
             
             console.log("RAW ERROR:", err);
             

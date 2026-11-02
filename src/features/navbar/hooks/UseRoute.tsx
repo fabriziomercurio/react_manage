@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 let globalParameter = {
-    path: "",
+    path: window.location.pathname,
     id: null
 };
 
@@ -21,7 +21,13 @@ export function useRoute() {
     }, []);
 
     const navigate = (router: any) => {
-        globalParameter = router;
+        globalParameter = router; 
+
+        window.history.pushState(
+            {},
+            "",
+            router.path
+        );
 
         listeners.forEach(listener => listener({}));
     };

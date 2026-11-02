@@ -1,12 +1,15 @@
+import { useEffect } from "react";
+import { useRoute } from "../../navbar/hooks/UseRoute";
 import { Logout } from "../../auth/api/Logout";
 
 const LogoutPage = () => {
-      try {
-        Logout();
-      } catch (error) {
-        
-      }
-} 
+    const { navigate } = useRoute();
 
+    useEffect(() => {
+        Logout(navigate);
+    }, []);
 
-export default LogoutPage; 
+    return <p>Logout in corso...</p>;
+};
+
+export default LogoutPage;
